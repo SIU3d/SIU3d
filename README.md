@@ -19,7 +19,7 @@ What you get in this slice:
 - In a browser-only editor like vscode.dev, run the commands in a **remote** shell (Codespace/VM); npm is not available locally in the browser.
 
 ## Install & run locally
-From the repo root:
+From the repo root (for example `PS C:\Users\Foxle\Downloads\art\SIU3d-codex-design-website-game-with-shared-canvas>` on Windows):
 
 ```bash
 # install shared dev tooling (none right now, but keeps root scripts working)
@@ -33,6 +33,16 @@ npm install --prefix frontend
 
 # start both servers in parallel (backend on 4000, frontend on 5173)
 npm run dev
+```
+
+On Windows/PowerShell you can also run the helper script (handles `cd` for you):
+
+```powershell
+# first time: installs deps, then starts both servers
+./scripts/windows-dev.ps1 -Install
+
+# later: start servers without reinstalling
+./scripts/windows-dev.ps1
 ```
 
 Then open the frontend at http://localhost:5173. It connects to the backend WebSocket at ws://localhost:4000 (configurable via `VITE_BACKEND_WS`).
