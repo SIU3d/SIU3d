@@ -12,6 +12,12 @@ What you get in this slice:
 - Node.js 18+ (or any recent LTS)
 - npm (ships with Node)
 
+**If you see `npm : The term 'npm' is not recognized` on Windows/PowerShell**
+- Install Node.js from https://nodejs.org/ (it includes npm) or use [nvm-windows](https://github.com/coreybutler/nvm-windows) to manage versions.
+- Close and reopen your terminal so the `%ProgramFiles%\nodejs` path is added to `PATH`.
+- Verify with `node -v` and `npm -v`. If they fail, run PowerShell as administrator and ensure execution policy allows scripts: `Set-ExecutionPolicy RemoteSigned`.
+- In a browser-only editor like vscode.dev, run the commands in a **remote** shell (Codespace/VM); npm is not available locally in the browser.
+
 ## Install & run locally
 From the repo root:
 
