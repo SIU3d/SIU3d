@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infinite Alchemy Canvas Prototype</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="layout">
+    <section class="canvas-pane">
+      <canvas id="world" width="960" height="600" aria-label="world canvas"></canvas>
+    </section>
+    <section class="side">
+      <h1>Infinite Alchemy — bare-bones</h1>
+      <div class="log" id="log" aria-live="polite"></div>
+      <form id="chat-form" class="chat">
+        <input id="chat" name="chat" autocomplete="off" placeholder="Commands: place snow | combine ember water" />
+        <button type="submit">Send</button>
+      </form>
+      <div class="help">
+        <p><strong>Move:</strong> WASD / arrows. Mouse wheel to zoom.</p>
+        <p><strong>Place tile:</strong> <code>place &lt;elementId&gt;</code></p>
+        <p><strong>Craft:</strong> <code>combine elementA elementB</code> (orderless)</p>
+        <p><strong>Available elements</strong> load from <code>docs/element_tree.json</code>.</p>
+      </div>
+    </section>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

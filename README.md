@@ -15,3 +15,14 @@ This repository tracks design notes for a shared-canvas, top-down sandbox inspir
 - **Persistence stub:** Keep the world in memory and periodically dump chunks to disk as JSON.
 
 Once these pieces work, expand toward AI-assisted tile art, layered worlds (±30 layers), and player-made quests.
+
+## Running the in-repo prototype
+The repository now includes a minimal, single-player HTML prototype to sketch the interactions:
+
+1. Start a static server from the repo root (for example):
+   - `python -m http.server 8000`
+2. Visit http://localhost:8000/ to open `index.html`.
+3. Move with **WASD/arrow keys**, zoom with the **mouse wheel**, and type chat commands:
+   - `place snow` paints the tile under your cursor using the element palette from [`docs/element_tree.json`](docs/element_tree.json).
+   - `combine ember water` crafts using the orderless recipes in the element tree and paints the result.
+4. Tweak the color palette, base tile size, and view radius in `main.js` as needed.
