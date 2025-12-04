@@ -1,0 +1,52 @@
+{
+  "tiers": [
+    {
+      "name": "Primal Colors",
+      "description": "Single-color elements that seed the world.",
+      "elements": [
+        {"id": "snow", "label": "Snow", "biome": "tundra", "traits": ["cold", "reflective"]},
+        {"id": "volcanic_rock", "label": "Volcanic Rock", "biome": "caldera", "traits": ["hot", "porous"]},
+        {"id": "ember", "label": "Ember", "biome": "forge", "traits": ["heat", "light"]},
+        {"id": "water", "label": "Water", "biome": "river", "traits": ["fluid", "cooling"]},
+        {"id": "sunlight", "label": "Sunlight", "biome": "meadow", "traits": ["energy", "growth"]},
+        {"id": "moss", "label": "Moss", "biome": "grove", "traits": ["life", "soft"]},
+        {"id": "soil", "label": "Soil", "biome": "plains", "traits": ["fertile", "stable"]},
+        {"id": "iron", "label": "Iron", "biome": "ridge", "traits": ["hard", "conductive"]}
+      ]
+    },
+    {
+      "name": "Secondary Fusions",
+      "description": "Two-color mixes that form the building blocks of early crafting.",
+      "elements": [
+        {"id": "stormcloud", "label": "Stormcloud", "resultOf": ["ember", "water"], "traits": ["charged", "wet"], "biome": "moor"},
+        {"id": "lava", "label": "Lava", "resultOf": ["ember", "sunlight"], "traits": ["molten", "bright"], "biome": "rift"},
+        {"id": "glacier", "label": "Glacier", "resultOf": ["snow", "water"], "traits": ["frozen", "massive"], "biome": "icefield"},
+        {"id": "loam", "label": "Fertile Loam", "resultOf": ["moss", "soil"], "traits": ["rich", "humid"], "biome": "orchard"},
+        {"id": "ash", "label": "Ash", "resultOf": ["volcanic_rock", "iron"], "traits": ["fragile", "alkaline"], "biome": "waste"},
+        {"id": "bronze", "label": "Bronze Bloom", "resultOf": ["ember", "iron"], "traits": ["conductive", "ornate"], "biome": "forge"},
+        {"id": "mist", "label": "Mist", "resultOf": ["water", "sunlight"], "traits": ["vapor", "light"], "biome": "coast"},
+        {"id": "sap", "label": "Sap", "resultOf": ["sunlight", "soil"], "traits": ["sticky", "preserving"], "biome": "grove"}
+      ]
+    },
+    {
+      "name": "Advanced Composites",
+      "description": "Ternary and higher blends that unlock progression and special biomes.",
+      "elements": [
+        {"id": "obsidian", "label": "Obsidian Glass", "resultOf": ["volcanic_rock", "water", "iron"], "traits": ["sharp", "mystic"], "biome": "caldera"},
+        {"id": "canopy", "label": "Canopy", "resultOf": ["loam", "mist"], "traits": ["lush", "shaded"], "biome": "jungle"},
+        {"id": "aurora", "label": "Aurora Veil", "resultOf": ["snow", "stormcloud"], "traits": ["charged", "ethereal"], "biome": "tundra"},
+        {"id": "steel", "label": "Steel", "resultOf": ["iron", "ash"], "traits": ["strong", "resonant"], "biome": "ridge"},
+        {"id": "riftroot", "label": "Basalt Sprout", "resultOf": ["lava", "moss"], "traits": ["hot", "living"], "biome": "rift_forest"},
+        {"id": "tempest", "label": "Tempest Core", "resultOf": ["stormcloud", "sunlight"], "traits": ["cyclonic", "radiant"], "biome": "sky"},
+        {"id": "glassland", "label": "Glass Meadow", "resultOf": ["obsidian", "sunlight"], "traits": ["transparent", "fragile"], "biome": "mirage"},
+        {"id": "mycelium", "label": "Mycelium", "resultOf": ["ash", "moss", "water"], "traits": ["spreading", "damp"], "biome": "undercroft"}
+      ]
+    }
+  ],
+  "rules": {
+    "combination": "Orderless mixing; if multiple recipes match, prefer the most specific (highest number of ingredients).",
+    "rarity": "Higher-tier outputs require crafted ingredients; adjust drop rates by biome to steer exploration.",
+    "decay": "Unattended high-tier tiles slowly regress one tier, enabling archaeological recovery gameplay.",
+    "biomeLink": "Each element aligns to a biome tag; worldgen uses this to paint the top-down map like a Don't Starve Together overworld."
+  }
+}
