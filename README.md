@@ -73,5 +73,11 @@ This repo is structured as a monorepo with separate backend and frontend service
    - **Frontend service**: `NEXT_PUBLIC_BACKEND_URL` pointing to the backend’s public URL (e.g., `https://your-backend.up.railway.app`). This is required in Railway so the Next.js app can reach the API instead of falling back to a localhost default.
 4. Deploy. The backend will serve the API, and the frontend will render the UI that calls it. Validate `/api/health` on the backend service before exercising the frontend.
 
+### Networking: port and custom domain
+
+- **Port to expose**: Set the port field in Railway’s Networking tab to the same port your service listens on. The backend defaults to `4000` (set via `PORT`), so enter `4000` when generating the backend domain. The frontend will listen on the platform-provided `$PORT` automatically when started with `npm run start`.
+- **Generate domain**: Click **Generate Domain** for each service after the correct port is set. Railway will give you a public URL; copy the backend URL into `NEXT_PUBLIC_BACKEND_URL` for the frontend service.
+- **Custom domain**: If you own a domain, add it via **+ Custom Domain** on each service. Point DNS (CNAME or A/ALIAS per Railway guidance) at the generated target. Keep the backend and frontend on separate domains/subdomains so `NEXT_PUBLIC_BACKEND_URL` remains the backend host.
+
 ### Local parity
 If you need to mirror the Railway setup locally, copy the provided `.env.example` files in `backend/` and `frontend/` to `.env` and adjust values as needed.
