@@ -75,9 +75,11 @@ This repo is structured as a monorepo with separate backend and frontend service
 
 ### Networking: port and custom domain
 
-- **Port to expose**: Set the port field in Railway’s Networking tab to the same port your service listens on. The backend defaults to `4000` (set via `PORT`), so enter `4000` when generating the backend domain. The frontend will listen on the platform-provided `$PORT` automatically when started with `npm run start`.
-- **Generate domain**: Click **Generate Domain** for each service after the correct port is set. Railway will give you a public URL; copy the backend URL into `NEXT_PUBLIC_BACKEND_URL` for the frontend service.
-- **Custom domain**: If you own a domain, add it via **+ Custom Domain** on each service. Point DNS (CNAME or A/ALIAS per Railway guidance) at the generated target. Keep the backend and frontend on separate domains/subdomains so `NEXT_PUBLIC_BACKEND_URL` remains the backend host.
+- **Backend port to expose**: In the backend service, set `PORT=4000` in **Variables** and set the Networking **Port** field to `4000` before generating a domain. The Express server binds to that port, so the domain must also publish port 4000 or the app will show a “failed to respond” error.
+- **Frontend port**: The frontend uses the platform-provided `$PORT` automatically when started with `npm run start`, so you do not need to hard-code a port for it. Leave the Networking port blank or accept the default that Railway supplies.
+- **Generate domains**: After ports are configured, click **Generate Domain** for each service. Copy the backend domain (for example, `https://siu3d-production.up.railway.app`) into the frontend’s `NEXT_PUBLIC_BACKEND_URL` variable so the Next.js app calls the deployed API instead of localhost.
+- **Custom domains**: If you own a domain, add it via **+ Custom Domain** on each service. Point DNS (CNAME or A/ALIAS per Railway guidance) at the generated target. Keep the backend and frontend on separate subdomains (e.g., `api.example.com` and `app.example.com`) so `NEXT_PUBLIC_BACKEND_URL` references the backend host.
+- **Smoke test**: Open `<backend-domain>/api/health` in the browser. If it responds with `ok`, the port and domain are wired correctly. Then open the frontend domain; if it fails, double-check that `NEXT_PUBLIC_BACKEND_URL` matches the backend domain exactly (including `https://`).
 
 ### Local parity
 If you need to mirror the Railway setup locally, copy the provided `.env.example` files in `backend/` and `frontend/` to `.env` and adjust values as needed.
