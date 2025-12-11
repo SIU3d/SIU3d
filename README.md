@@ -49,7 +49,7 @@ This repository contains a lightweight MVP for the **Infinity Warranty** concept
    ```bash
    npm run dev
    ```
-3. Configure the API base via `NEXT_PUBLIC_BACKEND_URL` (defaults to `http://localhost:4000`).
+3. Configure the API base via `NEXT_PUBLIC_BACKEND_URL` (defaults to `http://localhost:4000`). In production, always set this to the public backend URL so the frontend calls the correct host.
 
 ## Smart Contract Scaffold
 - `contracts/InfinityWarranty.sol` holds upgrade rights per user/product line and exposes fee calculation helpers for future backend integration.
@@ -70,8 +70,8 @@ This repo is structured as a monorepo with separate backend and frontend service
 2. When prompted for services, keep both **backend** and **frontend** enabled from `railway.json`.
 3. Add environment variables:
    - **Backend service**: `PORT=4000` (optional override) and `JWT_SECRET` (set to a strong value).
-   - **Frontend service**: `NEXT_PUBLIC_BACKEND_URL` pointing to the backend’s public URL (e.g., `https://your-backend.up.railway.app`).
-4. Deploy. The backend will serve the API, and the frontend will render the UI that calls it.
+   - **Frontend service**: `NEXT_PUBLIC_BACKEND_URL` pointing to the backend’s public URL (e.g., `https://your-backend.up.railway.app`). This is required in Railway so the Next.js app can reach the API instead of falling back to a localhost default.
+4. Deploy. The backend will serve the API, and the frontend will render the UI that calls it. Validate `/api/health` on the backend service before exercising the frontend.
 
 ### Local parity
 If you need to mirror the Railway setup locally, copy the provided `.env.example` files in `backend/` and `frontend/` to `.env` and adjust values as needed.
