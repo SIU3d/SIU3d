@@ -18,7 +18,7 @@ This repository contains a lightweight MVP for the **Infinity Warranty** concept
 - Auth endpoints (`/api/auth/register`, `/api/auth/login`) issuing JWT tokens.
 - Trust fund endpoints (`/api/trust-fund/me`, `/api/trust-fund/deposit`, `/api/trust-fund/apply-yield`).
 - Product endpoints (`/api/products`, `/api/products/owned`, `/api/products/register`).
-- Upgrade simulator (`/api/upgrades/simulate`).
+- Upgrade simulator (`/api/upgrades/simulate`) and executable upgrade flow (`/api/upgrades/execute`) that can draw down the trust fund.
 - Seeded product catalog (console + phone generations) and Infinity Warranty logic using upgrade rights and recovery value calculations.
 
 ### Running the API

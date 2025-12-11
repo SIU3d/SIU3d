@@ -16,6 +16,7 @@ interface Ownership {
   productId: string;
   productLineId: string;
   ownedGeneration: number;
+  status?: string;
 }
 
 interface Simulation {
@@ -28,13 +29,22 @@ interface Simulation {
   newProductId: string;
 }
 
+interface ExecutionResult extends Simulation {
+  appliedTrustFundPayment?: number;
+  remainingCashDue?: number;
+  trustFundBalanceAfter: number;
+  ownerships: Ownership[];
+}
+
 export default function UpgradeSimulator() {
   const [session, setSession] = useState<UserSession | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [owned, setOwned] = useState<Ownership[]>([]);
   const [currentProduct, setCurrentProduct] = useState<string>('');
   const [targetProduct, setTargetProduct] = useState<string>('');
+  const [useTrustFund, setUseTrustFund] = useState<boolean>(true);
   const [result, setResult] = useState<Simulation | null>(null);
+  const [executed, setExecuted] = useState<ExecutionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const loadData = async (sess?: UserSession) => {
@@ -59,6 +69,7 @@ export default function UpgradeSimulator() {
   const onAuthChange = (sess: UserSession | null) => {
     setSession(sess);
     setResult(null);
+    setExecuted(null);
     if (sess) {
       loadData(sess).catch(() => undefined);
     } else {
@@ -70,11 +81,32 @@ export default function UpgradeSimulator() {
     if (!session) return;
     try {
       setError(null);
+      setExecuted(null);
       const data = await apiFetch<Simulation>('/api/upgrades/simulate', session.token, {
         method: 'POST',
         body: JSON.stringify({ current_product_id: currentProduct, target_product_id: targetProduct }),
       });
       setResult(data);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const execute = async () => {
+    if (!session) return;
+    try {
+      setError(null);
+      const data = await apiFetch<ExecutionResult>('/api/upgrades/execute', session.token, {
+        method: 'POST',
+        body: JSON.stringify({
+          current_product_id: currentProduct,
+          target_product_id: targetProduct,
+          use_trust_fund: useTrustFund,
+        }),
+      });
+      setExecuted(data);
+      setResult(null);
+      setOwned(data.ownerships);
     } catch (err: any) {
       setError(err.message);
     }
@@ -130,6 +162,25 @@ export default function UpgradeSimulator() {
               <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={simulate} disabled={!currentProduct || !targetProduct}>
                 Simulate
               </button>
+              <div className="flex items-center space-x-2">
+                <input
+                  id="use-trust"
+                  type="checkbox"
+                  className="h-4 w-4"
+                  checked={useTrustFund}
+                  onChange={(e) => setUseTrustFund(e.target.checked)}
+                />
+                <label htmlFor="use-trust" className="text-sm">
+                  Apply trust fund balance when executing
+                </label>
+              </div>
+              <button
+                className="bg-green-600 text-white px-4 py-2 rounded"
+                onClick={execute}
+                disabled={!currentProduct || !targetProduct}
+              >
+                Execute upgrade
+              </button>
 
               {error && <p className="text-sm text-red-600">{error}</p>}
               {result && (
@@ -139,6 +190,18 @@ export default function UpgradeSimulator() {
                   <p className="font-semibold">Upgrade fee: ${result.upgradeFee.toFixed(2)}</p>
                   <p className="text-sm text-gray-700">Trust fund balance: ${result.trustFundBalance.toFixed(2)}</p>
                   <p className="text-sm text-gray-700">Hypothetical balance after paying fee: ${result.hypotheticalBalanceAfterUpgrade.toFixed(2)}</p>
+                </div>
+              )}
+              {executed && (
+                <div className="border rounded p-3 space-y-2">
+                  <p className="font-medium">Upgrade executed</p>
+                  <p className="text-sm">Locked price: ${executed.lockedPrice.toFixed(2)}</p>
+                  <p className="text-sm">Recovery value: ${executed.assumedRecoveryValue.toFixed(2)}</p>
+                  <p className="font-semibold">Upgrade fee: ${executed.upgradeFee.toFixed(2)}</p>
+                  <p className="text-sm text-gray-700">Paid from trust fund: ${executed.appliedTrustFundPayment?.toFixed(2) ?? '0.00'}</p>
+                  <p className="text-sm text-gray-700">Remaining cash due: ${executed.remainingCashDue?.toFixed(2)}</p>
+                  <p className="text-sm text-gray-700">Trust fund before: ${executed.trustFundBalance.toFixed(2)}</p>
+                  <p className="text-sm text-gray-700">Trust fund after: ${executed.trustFundBalanceAfter.toFixed(2)}</p>
                 </div>
               )}
             </>

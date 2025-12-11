@@ -56,6 +56,9 @@ export interface UpgradeEvent {
   assumedRecoveryValue: number;
   upgradeFee: number;
   createdAt: Date;
+  mode?: 'SIMULATION' | 'EXECUTION';
+  appliedTrustFundPayment?: number;
+  remainingCashDue?: number;
 }
 
 export interface AuthTokenPayload {
