@@ -18,6 +18,7 @@ export interface Product {
   id: string;
   name: string;
   sku: string;
+  productLineId: string;
   basePrice: number;
   generation: number;
   createdAt: Date;
@@ -29,6 +30,7 @@ export interface UserProductOwnership {
   id: string;
   userId: string;
   productId: string;
+  productLineId: string;
   originalPricePaid: number;
   ownedGeneration: number;
   status: OwnershipStatus;
@@ -38,7 +40,7 @@ export interface UserProductOwnership {
 export interface UpgradeRight {
   id: string;
   userId: string;
-  productId: string;
+  productLineId: string;
   lockedPrice: number;
   currentGeneration: number;
   maxGenerationReached?: number;

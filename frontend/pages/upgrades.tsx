@@ -6,6 +6,7 @@ import { apiFetch, loadSession, UserSession } from '../lib/api';
 interface Product {
   id: string;
   name: string;
+  productLineId: string;
   generation: number;
   basePrice: number;
 }
@@ -13,6 +14,7 @@ interface Product {
 interface Ownership {
   id: string;
   productId: string;
+  productLineId: string;
   ownedGeneration: number;
 }
 
@@ -84,7 +86,8 @@ export default function UpgradeSimulator() {
   }));
   const newerProducts = products.filter((p) => {
     const current = products.find((c) => c.id === currentProduct);
-    return current ? p.generation > current.generation && p.name.split(' ')[0] === current.name.split(' ')[0] : true;
+    if (!current) return false;
+    return p.productLineId === current.productLineId && p.generation > current.generation;
   });
 
   return (

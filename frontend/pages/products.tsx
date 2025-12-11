@@ -6,6 +6,7 @@ import { apiFetch, loadSession, UserSession } from '../lib/api';
 interface Product {
   id: string;
   name: string;
+  productLineId: string;
   basePrice: number;
   generation: number;
 }
@@ -13,6 +14,7 @@ interface Product {
 interface Ownership {
   id: string;
   productId: string;
+  productLineId: string;
   originalPricePaid: number;
   ownedGeneration: number;
   status: string;

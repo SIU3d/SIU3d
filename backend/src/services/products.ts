@@ -19,6 +19,7 @@ export function registerOwnership(userId: string, productId: string, pricePaid: 
     id: uuid(),
     userId,
     productId,
+    productLineId: product.productLineId,
     originalPricePaid: pricePaid,
     ownedGeneration: product.generation,
     status: 'ACTIVE',
@@ -26,15 +27,18 @@ export function registerOwnership(userId: string, productId: string, pricePaid: 
   };
   db.ownerships.push(ownership);
 
-  const existingRight = db.upgradeRights.find((u) => u.userId === userId && u.productId === productId);
+  const existingRight = db.upgradeRights.find(
+    (u) => u.userId === userId && u.productLineId === product.productLineId,
+  );
   if (existingRight) {
+    existingRight.currentGeneration = Math.max(existingRight.currentGeneration, product.generation);
     return { ownership };
   }
 
   const upgradeRight: UpgradeRight = {
     id: uuid(),
     userId,
-    productId,
+    productLineId: product.productLineId,
     lockedPrice: pricePaid,
     currentGeneration: product.generation,
     createdAt: new Date(),
@@ -43,8 +47,8 @@ export function registerOwnership(userId: string, productId: string, pricePaid: 
   return { ownership, upgradeRight };
 }
 
-export function findUpgradeRightForProductLine(userId: string, productId: string): UpgradeRight | undefined {
-  return db.upgradeRights.find((u) => u.userId === userId && u.productId === productId);
+export function findUpgradeRightForProductLine(userId: string, productLineId: string): UpgradeRight | undefined {
+  return db.upgradeRights.find((u) => u.userId === userId && u.productLineId === productLineId);
 }
 
 export function listOwnerships(userId: string): UserProductOwnership[] {

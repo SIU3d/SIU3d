@@ -18,7 +18,11 @@ export function simulateUpgrade(userId: string, currentProductId: string, target
     throw new Error('Target product must be newer generation');
   }
 
-  const upgradeRight = findUpgradeRightForProductLine(userId, currentProductId);
+  if (targetProduct.productLineId !== currentProduct.productLineId) {
+    throw new Error('Products must belong to the same product line');
+  }
+
+  const upgradeRight = findUpgradeRightForProductLine(userId, currentProduct.productLineId);
   if (!upgradeRight) {
     throw new Error('No upgrade right for this product');
   }
