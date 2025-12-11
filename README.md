@@ -57,3 +57,21 @@ This repository contains a lightweight MVP for the **Infinity Warranty** concept
 ## Notes
 - Data is stored in-memory for the MVP; swap the store out for Prisma/PostgreSQL in a future iteration.
 - The trust fund logic simulates compound growth based on elapsed time and a default 5% annual yield.
+
+## Deploying on Railway
+
+This repo is structured as a monorepo with separate backend and frontend services. A `railway.json` file is included so you can provision two services directly from the repo:
+
+- **backend** – builds and starts the Express API from `backend/`, exposes `PORT` (defaults to 4000) and uses `/api/health` for health checks.
+- **frontend** – builds and starts the Next.js app from `frontend/`, binding to the platform-provided `$PORT`.
+
+### One-time setup
+1. Create a project in [Railway](https://railway.com/) and connect this repository.
+2. When prompted for services, keep both **backend** and **frontend** enabled from `railway.json`.
+3. Add environment variables:
+   - **Backend service**: `PORT=4000` (optional override) and `JWT_SECRET` (set to a strong value).
+   - **Frontend service**: `NEXT_PUBLIC_BACKEND_URL` pointing to the backend’s public URL (e.g., `https://your-backend.up.railway.app`).
+4. Deploy. The backend will serve the API, and the frontend will render the UI that calls it.
+
+### Local parity
+If you need to mirror the Railway setup locally, copy the provided `.env.example` files in `backend/` and `frontend/` to `.env` and adjust values as needed.
