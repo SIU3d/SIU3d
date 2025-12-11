@@ -57,3 +57,23 @@ This repository contains a lightweight MVP for the **Infinity Warranty** concept
 ## Notes
 - Data is stored in-memory for the MVP; swap the store out for Prisma/PostgreSQL in a future iteration.
 - The trust fund logic simulates compound growth based on elapsed time and a default 5% annual yield.
+
+## Running on OneCompiler
+If you want to demo the backend quickly inside a single online sandbox like [OneCompiler](https://onecompiler.com/), you can run just the Express API:
+
+1. Open a new **Node.js** project in OneCompiler and create the following files/directories:
+   - `backend/package.json`
+   - `backend/tsconfig.json`
+   - `backend/src/` (copy the TypeScript files from this repository)
+2. In the OneCompiler shell, install dependencies:
+   ```bash
+   cd backend
+   npm install
+   ```
+3. Start the dev server:
+   ```bash
+   npm run dev
+   ```
+4. Use the built-in console to hit endpoints (e.g., with `curl`) at `http://localhost:4000/api/...`.
+
+> Note: The Next.js frontend is not recommended for OneCompiler because of its multi-process dev server; for a quick demo, run only the backend there and interact via REST calls.
