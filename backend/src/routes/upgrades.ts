@@ -1,11 +1,17 @@
-import { Router } from 'express';
+import { Router, Response } from 'express';
 import { authMiddleware, AuthenticatedRequest } from '../utils/authMiddleware';
 import { simulateUpgrade, executeUpgrade } from '../services/upgrades';
 
 const router = Router();
 router.use(authMiddleware);
 
-router.post('/simulate', (req: AuthenticatedRequest, res) => {
+interface UpgradeBody {
+  current_product_id: string;
+  target_product_id: string;
+  use_trust_fund?: boolean;
+}
+
+router.post('/simulate', (req: AuthenticatedRequest<UpgradeBody>, res: Response) => {
   const { current_product_id, target_product_id } = req.body;
   if (!current_product_id || !target_product_id) {
     return res.status(400).json({ message: 'current_product_id and target_product_id required' });
@@ -18,7 +24,7 @@ router.post('/simulate', (req: AuthenticatedRequest, res) => {
   }
 });
 
-router.post('/execute', (req: AuthenticatedRequest, res) => {
+router.post('/execute', (req: AuthenticatedRequest<UpgradeBody>, res: Response) => {
   const { current_product_id, target_product_id, use_trust_fund } = req.body;
   if (!current_product_id || !target_product_id) {
     return res.status(400).json({ message: 'current_product_id and target_product_id required' });

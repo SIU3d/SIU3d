@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../services/auth';
 import { db } from '../store';
 
-export interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest<T = any> extends Request<unknown, unknown, T> {
   user?: { id: string; email: string };
 }
 

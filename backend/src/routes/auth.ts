@@ -1,10 +1,15 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { login, register } from '../services/auth';
 import { db } from '../store';
 
 const router = Router();
 
-router.post('/register', (req, res) => {
+interface AuthBody {
+  email: string;
+  password: string;
+}
+
+router.post('/register', (req: Request<unknown, unknown, AuthBody>, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: 'Email and password required' });
@@ -17,7 +22,7 @@ router.post('/register', (req, res) => {
   }
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', (req: Request<unknown, unknown, AuthBody>, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: 'Email and password required' });
